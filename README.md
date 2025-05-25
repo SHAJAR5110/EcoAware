@@ -6,8 +6,8 @@ A modern, interactive website dedicated to environmental awareness and sustainab
 
 ## 🌍 Live Demo
 
-**Website URL**: [https://ecoaware-website.vercel.app](https://ecoaware-website.vercel.app)  
-**Repository**: [https://github.com/yourusername/ecoaware-website](https://github.com/yourusername/ecoaware-website)
+**Website URL**: [EcoAware](https://eco-aware-six.vercel.app/))  
+**Repository**: [Eco Aware](https://github.com/SHAJAR5110/EcoAware))
 
 ## 📋 Table of Contents
 
@@ -20,7 +20,7 @@ A modern, interactive website dedicated to environmental awareness and sustainab
 - [Design Principles](#-design-principles)
 - [Browser Compatibility](#-browser-compatibility)
 - [Contributing](#-contributing)
-- [License](#-license)
+
 
 ## ✨ Features
 
