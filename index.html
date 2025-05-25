@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoAware - Environmental Awareness</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* Navigation */
+        nav {
+            background: linear-gradient(135deg, #2c5f2d, #4a7c59);
+            padding: 1rem 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            background: rgba(44, 95, 45, 0.95);
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #97c93d;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background: #97c93d;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><defs><linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:%234a7c59"/><stop offset="100%" style="stop-color:%2397c93d"/></linearGradient></defs><rect width="1200" height="800" fill="url(%23bg)"/><circle cx="200" cy="150" r="80" fill="rgba(255,255,255,0.1)"/><circle cx="800" cy="300" r="120" fill="rgba(255,255,255,0.05)"/><circle cx="1000" cy="600" r="100" fill="rgba(255,255,255,0.08)"/></svg>');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            padding: 2rem;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: #97c93d;
+            color: white;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(151, 201, 61, 0.3);
+        }
+
+        .cta-button:hover {
+            background: #7da832;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(151, 201, 61, 0.4);
+        }
+
+        /* Floating elements */
+        .floating-element {
+            position: absolute;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating-element:nth-child(1) {
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-element:nth-child(2) {
+            top: 60%;
+            right: 15%;
+            animation-delay: 2s;
+        }
+
+        .floating-element:nth-child(3) {
+            bottom: 20%;
+            left: 20%;
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* Page content */
+        .page {
+            display: none;
+            min-height: 100vh;
+            padding: 120px 2rem 4rem;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .page-title {
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: #2c5f2d;
+        }
+
+        /* Stats Section */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #ffffff, #f8f9fa);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+            border-color: #97c93d;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #97c93d;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .stat-description {
+            font-size: 0.9rem;
+            color: #777;
+        }
+
+        /* Action Cards */
+        .action-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .action-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border-left: 5px solid #97c93d;
+        }
+
+        .action-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .action-card h3 {
+            color: #2c5f2d;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .action-card p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .action-button {
+            background: #97c93d;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .action-button:hover {
+            background: #7da832;
+            transform: scale(1.05);
+        }
+
+        /* Footer */
+        footer {
+            background: #2c5f2d;
+            color: white;
+            text-align: center;
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .social-links {
+            margin: 2rem 0;
+        }
+
+        .social-links a {
+            color: white;
+            text-decoration: none;
+            margin: 0 1rem;
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: #97c93d;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        /* Interactive elements */
+        .interactive-demo {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 3rem 0;
+            text-align: center;
+        }
+
+        .demo-controls {
+            margin: 2rem 0;
+        }
+
+        .demo-button {
+            background: #2c5f2d;
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 25px;
+            margin: 0 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .demo-button:hover {
+            background: #4a7c59;
+            transform: scale(1.05);
+        }
+
+        .demo-result {
+            margin-top: 2rem;
+            padding: 1rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            color: #2c5f2d;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .stat-number {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">🌱 EcoAware</a>
+            <ul class="nav-links">
+                <li><a href="#" onclick="showPage('home')">Home</a></li>
+                <li><a href="#" onclick="showPage('impact')">Impact</a></li>
+                <li><a href="#" onclick="showPage('solutions')">Solutions</a></li>
+                <li><a href="#" onclick="showPage('about')">About</a></li>
+            </ul>
+            <button class="mobile-menu-toggle">☰</button>
+        </div>
+    </nav>
+
+    <!-- Home Page -->
+    <div id="home" class="page active">
+        <section class="hero">
+            <div class="floating-element">🌿</div>
+            <div class="floating-element">🌍</div>
+            <div class="floating-element">💧</div>
+            <div class="hero-content">
+                <h1>Protect Our Planet</h1>
+                <p>Join the movement to create a sustainable future for generations to come. Every action counts in the fight against climate change.</p>
+                <a href="#" class="cta-button" onclick="showPage('impact')">Discover the Impact</a>
+            </div>
+        </section>
+    </div>
+
+    <!-- Impact Page -->
+    <div id="impact" class="page">
+        <div class="container">
+            <h2 class="page-title">Environmental Impact</h2>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="co2-counter">415</div>
+                    <div class="stat-label">CO₂ PPM in Atmosphere</div>
+                    <div class="stat-description">Highest level in 3 million years</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="temp-counter">1.1</div>
+                    <div class="stat-label">Degrees Warmer (°C)</div>
+                    <div class="stat-description">Since pre-industrial times</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="species-counter">1M</div>
+                    <div class="stat-label">Species at Risk</div>
+                    <div class="stat-description">Of extinction globally</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="plastic-counter">8M</div>
+                    <div class="stat-label">Tons of Plastic</div>
+                    <div class="stat-description">Enter oceans annually</div>
+                </div>
+            </div>
+
+            <div class="interactive-demo">
+                <h3>Carbon Footprint Calculator</h3>
+                <p>Calculate your daily carbon footprint based on common activities</p>
+                <div class="demo-controls">
+                    <button class="demo-button" onclick="calculateFootprint('car')">🚗 Car Travel (10 miles)</button>
+                    <button class="demo-button" onclick="calculateFootprint('plane')">✈️ Flight (500 miles)</button>
+                    <button class="demo-button" onclick="calculateFootprint('energy')">⚡ Home Energy (1 day)</button>
+                    <button class="demo-button" onclick="resetCalculator()">🔄 Reset</button>
+                </div>
+                <div class="demo-result" id="carbon-result">
+                    Select an activity to see its carbon footprint
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Solutions Page -->
+    <div id="solutions" class="page">
+        <div class="container">
+            <h2 class="page-title">Sustainable Solutions</h2>
+            
+            <div class="action-grid">
+                <div class="action-card">
+                    <h3>🌱 Renewable Energy</h3>
+                    <p>Transition to solar, wind, and other clean energy sources to reduce carbon emissions and create sustainable power systems.</p>
+                    <button class="action-button" onclick="showEnergyTip()">Learn More</button>
+                </div>
+                <div class="action-card">
+                    <h3>♻️ Circular Economy</h3>
+                    <p>Implement reduce, reuse, and recycle principles to minimize waste and maximize resource efficiency.</p>
+                    <button class="action-button" onclick="showRecyclingTip()">Get Tips</button>
+                </div>
+                <div class="action-card">
+                    <h3>🚲 Sustainable Transport</h3>
+                    <p>Choose eco-friendly transportation options like cycling, public transport, or electric vehicles.</p>
+                    <button class="action-button" onclick="showTransportTip()">Explore Options</button>
+                </div>
+                <div class="action-card">
+                    <h3>🌿 Conservation</h3>
+                    <p>Protect natural habitats and biodiversity through conservation efforts and sustainable practices.</p>
+                    <button class="action-button" onclick="showConservationTip()">Take Action</button>
+                </div>
+                <div class="action-card">
+                    <h3>💡 Smart Technology</h3>
+                    <p>Use IoT and smart systems to optimize energy consumption and reduce environmental impact.</p>
+                    <button class="action-button" onclick="showTechTip()">Discover Tech</button>
+                </div>
+                <div class="action-card">
+                    <h3>🌾 Sustainable Agriculture</h3>
+                    <p>Support farming practices that protect soil health and reduce environmental impact.</p>
+                    <button class="action-button" onclick="showAgricultureTip()">Learn Methods</button>
+                </div>
+            </div>
+
+            <div class="interactive-demo">
+                <h3>Environmental Impact Tracker</h3>
+                <p>Track your eco-friendly actions and see their cumulative impact</p>
+                <div class="demo-controls">
+                    <button class="demo-button" onclick="addAction('recycle')">♻️ Recycled Today</button>
+                    <button class="demo-button" onclick="addAction('walk')">🚶 Walked Instead of Driving</button>
+                    <button class="demo-button" onclick="addAction('energy')">💡 Saved Energy</button>
+                    <button class="demo-button" onclick="resetTracker()">🔄 Reset Tracker</button>
+                </div>
+                <div class="demo-result" id="action-tracker">
+                    Start tracking your environmental actions!
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Page -->
+    <div id="about" class="page">
+        <div class="container">
+            <h2 class="page-title">About EcoAware</h2>
+            
+            <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+                <p style="font-size: 1.2rem; margin-bottom: 2rem; color: #666;">
+                    EcoAware is dedicated to raising environmental consciousness and promoting sustainable living practices. Our mission is to educate, inspire, and empower individuals to make positive environmental choices.
+                </p>
+                
+                <div class="action-grid" style="margin-top: 3rem;">
+                    <div class="action-card">
+                        <h3>🎯 Our Mission</h3>
+                        <p>To create awareness about environmental challenges and promote sustainable solutions for a better tomorrow.</p>
+                    </div>
+                    <div class="action-card">
+                        <h3>👥 Our Community</h3>
+                        <p>Join thousands of eco-conscious individuals working together to protect our planet and create positive change.</p>
+                    </div>
+                    <div class="action-card">
+                        <h3>🌍 Global Impact</h3>
+                        <p>Through education and action, we're contributing to global efforts to combat climate change and environmental degradation.</p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem; padding: 2rem; background: linear-gradient(135deg, #f8f9fa, #e9ecef); border-radius: 15px;">
+                    <h3 style="color: #2c5f2d; margin-bottom: 1rem;">Get Involved</h3>
+                    <p style="margin-bottom: 2rem;">Ready to make a difference? Join our community and start your environmental journey today.</p>
+                    <button class="cta-button" onclick="showGetInvolved()">Join the Movement</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <h3>🌱 EcoAware</h3>
+            <p>Creating a sustainable future, one action at a time.</p>
+            <div class="social-links">
+                <a href="#">Facebook</a>
+                <a href="#">Twitter</a>
+                <a href="#">Instagram</a>
+                <a href="#">LinkedIn</a>
+            </div>
+            <p>&copy; 2025 EcoAware. All rights reserved. | Built with passion for the planet.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Global variables
+        let carbonTotal = 0;
+        let actionCount = {
+            recycle: 0,
+            walk: 0,
+            energy: 0
+        };
+
+        // Navigation functionality
+        function showPage(pageId) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active'));
+            
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
+            
+            // Animate page entrance
+            setTimeout(() => {
+                document.getElementById(pageId).classList.add('fade-in');
+            }, 100);
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Carbon footprint calculator
+        function calculateFootprint(type) {
+            let emission = 0;
+            let activity = '';
+            
+            switch(type) {
+                case 'car':
+                    emission = 4.6; // kg CO2
+                    activity = 'Car travel (10 miles)';
+                    break;
+                case 'plane':
+                    emission = 53.3; // kg CO2
+                    activity = 'Flight (500 miles)';
+                    break;
+                case 'energy':
+                    emission = 12.2; // kg CO2
+                    activity = 'Home energy (1 day)';
+                    break;
+            }
+            
+            carbonTotal += emission;
+            
+            document.getElementById('carbon-result').innerHTML = `
+                <strong>${activity}</strong><br>
+                Emits ${emission} kg CO₂<br>
+                <small>Total today: ${carbonTotal.toFixed(1)} kg CO₂</small>
+            `;
+        }
+
+        function resetCalculator() {
+            carbonTotal = 0;
+            document.getElementById('carbon-result').innerHTML = 'Select an activity to see its carbon footprint';
+        }
+
+        // Action tracker
+        function addAction(type) {
+            actionCount[type]++;
+            let impact = '';
+            let totalActions = actionCount.recycle + actionCount.walk + actionCount.energy;
+            
+            switch(type) {
+                case 'recycle':
+                    impact = 'Saved 2.3 kg CO₂';
+                    break;
+                case 'walk':
+                    impact = 'Prevented 4.6 kg CO₂';
+                    break;
+                case 'energy':
+                    impact = 'Saved 1.2 kg CO₂';
+                    break;
+            }
+            
+            let totalSaved = (actionCount.recycle * 2.3) + (actionCount.walk * 4.6) + (actionCount.energy * 1.2);
+            
+            document.getElementById('action-tracker').innerHTML = `
+                <strong>Latest Action: ${impact}</strong><br>
+                Total Actions: ${totalActions}<br>
+                <small>Total CO₂ Saved: ${totalSaved.toFixed(1)} kg</small>
+            `;
+        }
+
+        function resetTracker() {
+            actionCount = { recycle: 0, walk: 0, energy: 0 };
+            document.getElementById('action-tracker').innerHTML = 'Start tracking your environmental actions!';
+        }
+
+        // Solution page interactions
+        function showEnergyTip() {
+            alert('💡 Tip: Installing solar panels can reduce your carbon footprint by 3-4 tons per year and save money on electricity bills!');
+        }
+
+        function showRecyclingTip() {
+            alert('♻️ Tip: Recycling one aluminum can saves enough energy to power a TV for 3 hours. Start with small changes!');
+        }
+
+        function showTransportTip() {
+            alert('🚲 Tip: Biking just 10 miles per week instead of driving can save 500 pounds of CO₂ annually!');
+        }
+
+        function showConservationTip() {
+            alert('🌿 Tip: Planting native species in your garden supports local wildlife and requires less water and maintenance!');
+        }
+
+        function showTechTip() {
+            alert('💡 Tip: Smart thermostats can reduce heating and cooling costs by up to 23% while maintaining comfort!');
+        }
+
+        function showAgricultureTip() {
+            alert('🌾 Tip: Buying local, organic produce reduces transportation emissions and supports sustainable farming practices!');
+        }
+
+        function showGetInvolved() {
+            alert('🌱 Thank you for your interest! Start by implementing one sustainable practice today. Every small action creates ripple effects for positive change!');
+        }
+
+        // Animate counters on page load
+        function animateCounters() {
+            const counters = [
+                { id: 'co2-counter', target: 415, suffix: '' },
+                { id: 'temp-counter', target: 1.1, suffix: '' },
+                { id: 'species-counter', target: 1, suffix: 'M' },
+                { id: 'plastic-counter', target: 8, suffix: 'M' }
+            ];
+
+            counters.forEach(counter => {
+                const element = document.getElementById(counter.id);
+                if (element) {
+                    let current = 0;
+                    const increment = counter.target / 50;
+                    const timer = setInterval(() => {
+                        current += increment;
+                        if (current >= counter.target) {
+                            current = counter.target;
+                            clearInterval(timer);
+                        }
+                        element.textContent = current.toFixed(counter.target < 10 ? 1 : 0) + counter.suffix;
+                    }, 50);
+                }
+            });
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', () => {
+            // Add floating animation to hero elements
+            const floatingElements = document.querySelectorAll('.floating-element');
+            floatingElements.forEach((element, index) => {
+                element.style.fontSize = '2rem';
+                element.style.opacity = '0.8';
+            });
+
+            // Start counter animation when impact page is shown
+            const originalShowPage = showPage;
+            showPage = function(pageId) {
+                originalShowPage(pageId);
+                if (pageId === 'impact') {
+                    setTimeout(animateCounters, 500);
+                }
+            };
+        });
+
+        // Add some interactive features
+        document.addEventListener('mousemove', (e) => {
+            const hero = document.querySelector('.hero');
+            if (hero && hero.contains(e.target)) {
+                const x = e.clientX / window.innerWidth;
+                const y = e.clientY / window.innerHeight;
+                
+                hero.style.backgroundPosition = `${50 + x * 5}% ${50 + y * 5}%`;
+            }
+        });
+    </script>
+</body>
+</html>
