@@ -6,8 +6,8 @@ A modern, interactive website dedicated to environmental awareness and sustainab
 
 ## 🌍 Live Demo
 
-**Website URL**: [EcoAware](https://eco-aware-six.vercel.app/))  
-**Repository**: [Eco Aware](https://github.com/SHAJAR5110/EcoAware))
+**Website URL**: [EcoAware](https://eco-aware-six.vercel.app/)
+**Repository**: [Eco Aware](https://github.com/SHAJAR5110/EcoAware)
 
 ## 📋 Table of Contents
 
@@ -291,10 +291,10 @@ addAction('energy')  // Saves 1.2 kg CO₂
 
 ## 📞 Contact
 
-**Project Maintainer**: Your Name  
+**Project Maintainer**: Shajar Abbas  
 **Email**: shajarabbas602@gmail.com  
-**GitHub**: [@yourusername](https://github.com/SHAJAR5110)  
-**Website**: [https://ecoaware-website.vercel.app](https://ecoaware-website.vercel.app)
+**GitHub**: [Shajar](https://github.com/SHAJAR5110)  
+**Website**: [ECOAWARE](https://eco-aware-six.vercel.app/)
 
 ---
 
